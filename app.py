@@ -104,7 +104,7 @@ with st.sidebar:
     early_stop = st.slider("Early stop",       20, 200, 100, step=10)
 
     st.divider()
-    if st.button("🔄 Generate Problem", use_container_width=True):
+    if st.button("🔄 Generate Problem", width="stretch"):
         prob = generate_problem(
             n=n, visitor_demand=visitor_demand,
             cost_range=(int(cost_min), int(cost_max)),
@@ -182,7 +182,7 @@ with tab_prob:
             "Fleksibilitas" : "✅ Semua shift" if len(av) == 3
                                else ("⚠️ 2 shift" if len(av) == 2 else "🔒 1 shift"),
         })
-    st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
 
     # Cost matrix
     st.markdown('<div class="section-head">Matriks Biaya</div>', unsafe_allow_html=True)
@@ -194,7 +194,7 @@ with tab_prob:
     )
     st.dataframe(
         cost_df.style.background_gradient(cmap="YlOrRd", axis=None),
-        use_container_width=True,
+        width="stretch",
     )
 
     # Formula Vd
@@ -215,9 +215,9 @@ with tab_run:
     st.markdown("### ▶️ Jalankan Genetic Algorithm")
 
     cb1, cb2, _ = st.columns([1, 1, 5])
-    run_btn  = cb1.button("🚀 Mulai",  use_container_width=True,
+    run_btn  = cb1.button("🚀 Mulai",  width="stretch",
                            disabled=st.session_state.running)
-    stop_btn = cb2.button("⏹ Stop",   use_container_width=True,
+    stop_btn = cb2.button("⏹ Stop",   width="stretch",
                            disabled=not st.session_state.running)
 
     if stop_btn:
@@ -256,7 +256,7 @@ with tab_run:
             fig.update_xaxes(title_text="Generasi")
             fig.update_yaxes(title_text="Fitness", col=1)
             fig.update_yaxes(title_text="Individu Feasible", col=2)
-            ph_chart.plotly_chart(fig, use_container_width=True,
+            ph_chart.plotly_chart(fig, width="stretch",
                                   key=f"live_{gen}")
 
     if run_btn:
@@ -373,7 +373,7 @@ with tab_result:
                 "Ideal"               : ideal,
                 "Selisih"             : round(Nt - ideal, 2),
             })
-        st.dataframe(pd.DataFrame(dist_rows), use_container_width=True, hide_index=True)
+        st.dataframe(pd.DataFrame(dist_rows), width="stretch", hide_index=True)
 
         # Assignment table
         st.markdown('<div class="section-head">Tabel Assignment</div>',
@@ -399,7 +399,7 @@ with tab_result:
             return [f"background-color: {'#f0faf5' if ok else '#fff5f5'}"] * len(row)
 
         st.dataframe(df_assign.style.apply(hl, axis=1),
-                     use_container_width=True, hide_index=True)
+                     width="stretch", hide_index=True)
 
         # Visualisasi
         st.markdown('<div class="section-head">Visualisasi</div>', unsafe_allow_html=True)
@@ -427,7 +427,7 @@ with tab_result:
             ))
             fig_h.update_layout(title="Matriks Biaya (kotak = terpilih)",
                                 height=380, margin=dict(t=40,b=20), shapes=shapes)
-            st.plotly_chart(fig_h, use_container_width=True)
+            st.plotly_chart(fig_h, width="stretch")
 
         with vc2:
             # Proporsi bar
@@ -452,7 +452,7 @@ with tab_result:
                 barmode="group", height=380, margin=dict(t=40, b=20),
                 legend=dict(orientation="h", y=1.12),
             )
-            st.plotly_chart(fig_p, use_container_width=True)
+            st.plotly_chart(fig_p, width="stretch")
 
         # Download
         st.download_button(
@@ -521,7 +521,7 @@ with tab_study:
 
         bar.empty()
         df_s = pd.DataFrame(records)
-        st.dataframe(df_s, use_container_width=True, hide_index=True)
+        st.dataframe(df_s, width="stretch", hide_index=True)
 
         x_vals = [str(v) for v in param_values]
         fig_s = make_subplots(rows=2, cols=2, subplot_titles=[
@@ -544,7 +544,7 @@ with tab_study:
             name="Avg Vd"), row=2, col=2)
         fig_s.update_layout(height=560, margin=dict(t=40, b=20), showlegend=False)
         fig_s.update_xaxes(title_text=study_param)
-        st.plotly_chart(fig_s, use_container_width=True)
+        st.plotly_chart(fig_s, width="stretch")
 
         st.download_button(
             "⬇️ Download Hasil Studi (CSV)",
@@ -602,7 +602,7 @@ with tab_bench:
         s4.metric("Mean Biaya",   f"{df_b['Biaya'].mean():.1f}")
         s5.metric("Avg Waktu",    f"{df_b['Waktu (s)'].mean():.2f}s")
 
-        st.dataframe(df_b, use_container_width=True, hide_index=True)
+        st.dataframe(df_b, width="stretch", hide_index=True)
 
         # Box + scatter
         fig_b = make_subplots(rows=1, cols=2,
@@ -621,7 +621,7 @@ with tab_bench:
         fig_b.update_layout(height=340, margin=dict(t=40, b=20),
                             legend=dict(orientation="h", y=1.12))
         fig_b.update_xaxes(title_text="Run", col=2)
-        st.plotly_chart(fig_b, use_container_width=True)
+        st.plotly_chart(fig_b, width="stretch")
 
         st.download_button(
             "⬇️ Download Hasil Benchmark (CSV)",
